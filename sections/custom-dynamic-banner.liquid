@@ -1,0 +1,84 @@
+{% comment %}  sections/custom-dynamic-banner.liquid {% endcomment %}
+
+{% schema %}
+{
+  "name": "Custom Dynamic Banner",
+  "tag": "section",
+  "class": "dynamic-banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "desktop_banner",
+      "label": "Desktop Banner Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_banner",
+      "label": "Mobile Banner Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Dynamic Banner",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .dynamic-banner-wrapper {
+    width: 100%;
+    overflow: hidden;
+    margin: 2rem 0;
+  }
+
+  .dynamic-banner-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .mobile-image {
+    display: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    .desktop-image {
+      display: none !important;
+    }
+    .mobile-image {
+      display: block !important;
+    }
+  }
+
+  @media screen and (min-width: 769px) {
+    .desktop-image {
+      display: block !important;
+    }
+    .mobile-image {
+      display: none !important;
+    }
+  }
+</style>
+
+{% if section.settings.desktop_banner or section.settings.mobile_banner %}
+  <div class="dynamic-banner-wrapper">
+    {% if section.settings.desktop_banner %}
+      <img
+        src="{{ section.settings.desktop_banner | img_url: 'master' }}"
+        alt="Desktop Banner"
+        class="desktop-image"
+        loading="lazy"
+      >
+    {% endif %}
+    {% if section.settings.mobile_banner %}
+      <img
+        src="{{ section.settings.mobile_banner | img_url: 'master' }}"
+        alt="Mobile Banner"
+        class="mobile-image"
+        loading="lazy"
+      >
+    {% endif %}
+  </div>
+{% endif %}

@@ -1,0 +1,86 @@
+{% stylesheet %}
+  .promo-carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
+    padding: 1rem 0;
+  }
+  .promo-card {
+    flex: 0 0 80%;
+    scroll-snap-align: start;
+    border: 2px dashed orange;
+    background: #fff8f3;
+    padding: 1rem;
+    border-radius: 10px;
+    position: relative;
+    min-width: 280px;
+  }
+  .promo-code {
+    background: #eee;
+    font-weight: bold;
+    display: inline-block;
+    margin: 0.5rem 0;
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+  }
+  .copy-button {
+    background: #00c400;
+    color: white;
+    border: none;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .copy-button:hover {
+    background: #00a800;
+  }
+{% endstylesheet %}
+
+<div class="promo-carousel">
+  {% for block in section.blocks %}
+    <div class="promo-card">
+      <p>{{ block.settings.offer_text }}</p>
+      <span class="promo-code">{{ block.settings.promo_code }}</span>
+      <button class="copy-button" onclick="navigator.clipboard.writeText('{{ block.settings.promo_code }}')">
+        COPY
+      </button>
+    </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "Promo Carousel",
+  "tag": "section",
+  "class": "promo-carousel-wrapper",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "promo",
+      "name": "Promo Offer",
+      "settings": [
+        {
+          "type": "text",
+          "id": "offer_text",
+          "label": "Offer Text",
+          "default": "Get 15% off on orders over ₹1000 for the first order."
+        },
+        {
+          "type": "text",
+          "id": "promo_code",
+          "label": "Promo Code",
+          "default": "WELCOME15"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Promo Code Carousel",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
